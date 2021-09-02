@@ -26,16 +26,17 @@
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                <tr>
+                                <tr v-for="category in categories" :key="category.id">
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
-                                            Jane cooper
+                                            {{ category.name }}
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <span
-                                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                            Active
+                                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
+                                            :class="{ 'bg-green-200 text-green-800': category.is_active, 'bg-red-300 text-red-700': !category.is_active}">
+                                            {{ category.is_active ? 'Active' : 'Disabled' }}
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
