@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateCategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class CategoryController extends Controller
@@ -15,7 +17,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::where('user_id', Auth::user()->id)
+            ->get();
+
         return Inertia::render('Category/Index', ['categories' => $categories]);
     }
 
@@ -35,9 +39,14 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateCategoryRequest $request)
     {
-        //
+        $category = new Category();
+        $category->user_id = Auth::user()->id;
+        $category->name = $request->name;
+        $category->save();
+
+        return redirect()->back();
     }
 
     /**

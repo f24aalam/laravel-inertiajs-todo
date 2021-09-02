@@ -1,8 +1,9 @@
 <template>
     <app-layout title="Categories">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="flex justify-between font-semibold text-xl text-gray-800 leading-tight">
                 Categories
+                <create-category />
             </h2>
         </template>
 
@@ -18,11 +19,13 @@
     import { defineComponent } from 'vue'
     import AppLayout from '@/Layouts/AppLayout.vue'
     import CategoryList from './Partials/CategoryList.vue'
+    import CreateCategory from './Partials/CreateCategory.vue'
 
     export default defineComponent({
         components: {
             AppLayout,
             CategoryList,
+            CreateCategory
         },
         props: {
             categories: Array
