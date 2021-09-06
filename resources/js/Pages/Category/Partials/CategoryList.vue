@@ -118,7 +118,7 @@ export default {
     data() {
         return {
             updatingCategory: false,
-            category: {},
+            selectedCategory: {},
 
             form: this.$inertia.form({
                 name: '',
@@ -130,7 +130,7 @@ export default {
     methods: {
         updateCategory(category) {
             this.updatingCategory = true;
-            this.category = category;
+            this.selectedCategory = category;
             this.form.name = category.name;
             this.form.is_active = category.is_active;
 
@@ -138,7 +138,7 @@ export default {
         },
 
         update() {
-            this.form.put(route('categories.update', this.category.id), {
+            this.form.put(route('categories.update', this.selectedCategory.id), {
                 preserveScroll: true,
                 onSuccess: () => this.closeModal(),
                 onError: () => this.$refs.name.focus(),

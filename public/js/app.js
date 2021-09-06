@@ -20610,7 +20610,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       updatingCategory: false,
-      category: {},
+      selectedCategory: {},
       form: this.$inertia.form({
         name: '',
         is_active: true
@@ -20622,7 +20622,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.updatingCategory = true;
-      this.category = category;
+      this.selectedCategory = category;
       this.form.name = category.name;
       this.form.is_active = category.is_active;
       setTimeout(function () {
@@ -20632,7 +20632,7 @@ __webpack_require__.r(__webpack_exports__);
     update: function update() {
       var _this2 = this;
 
-      this.form.put(route('categories.update', this.category.id), {
+      this.form.put(route('categories.update', this.selectedCategory.id), {
         preserveScroll: true,
         onSuccess: function onSuccess() {
           return _this2.closeModal();
