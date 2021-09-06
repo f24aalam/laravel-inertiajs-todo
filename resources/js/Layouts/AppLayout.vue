@@ -22,6 +22,9 @@
                                 <jet-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </jet-nav-link>
+                                <jet-nav-link :href="route('tasks.index')" :active="route().current('tasks.index')">
+                                    Tasks
+                                </jet-nav-link>
                                 <jet-nav-link :href="route('categories.index')" :active="route().current('categories.index')">
                                     Categories
                                 </jet-nav-link>
@@ -147,6 +150,10 @@
                     <div class="pt-2 pb-3 space-y-1">
                         <jet-responsive-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
+                        </jet-responsive-nav-link>
+
+                        <jet-responsive-nav-link :href="route('tasks.index')" :active="route().current('tasks.index')">
+                            Tasks
                         </jet-responsive-nav-link>
 
                         <jet-responsive-nav-link :href="route('categories.index')" :active="route().current('categories.index')">
