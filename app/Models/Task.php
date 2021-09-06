@@ -18,8 +18,20 @@ class Task extends Model
         'category_id' => 'int',
     ];
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['completed'];
+
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function getCompletedAttribute()
+    {
+        return !is_null($this->attributes['completed_at']);
     }
 }

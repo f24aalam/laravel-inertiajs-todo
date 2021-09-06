@@ -21409,7 +21409,8 @@ __webpack_require__.r(__webpack_exports__);
       selectedTask: {},
       form: this.$inertia.form({
         description: '',
-        category_id: ''
+        category_id: '',
+        completed: false
       })
     };
   },
@@ -21422,6 +21423,7 @@ __webpack_require__.r(__webpack_exports__);
       this.selectedTask = task;
       this.form.description = task.description;
       this.form.category_id = task.category.id;
+      this.form.completed = task.completed;
       setTimeout(function () {
         return _this.$refs.description.focus();
       }, 250);
@@ -26920,15 +26922,29 @@ var _hoisted_17 = {
   "class": "mt-4"
 };
 var _hoisted_18 = ["value"];
+var _hoisted_19 = {
+  "class": "mt-4"
+};
+var _hoisted_20 = {
+  "class": "flex items-center"
+};
 
-var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Cancel ");
+var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  "class": "ml-2 text-sm text-gray-600"
+}, "Completed", -1
+/* HOISTED */
+);
 
-var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Update ");
+var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Cancel ");
+
+var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Update ");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_jet_input = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-input");
 
   var _component_jet_input_error = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-input-error");
+
+  var _component_jet_checkbox = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-checkbox");
 
   var _component_jet_secondary_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-secondary-button");
 
@@ -26943,10 +26959,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* TEXT */
     )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["px-2 inline-flex text-xs leading-5 font-semibold rounded-full", {
-        'bg-green-200 text-green-800': task.completed_at,
-        'bg-red-300 text-red-700': !task.completed_at
+        'bg-green-200 text-green-800': task.completed,
+        'bg-red-300 text-red-700': !task.completed
       }])
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(task.completed_at ? 'Yes' : 'No'), 3
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(task.completed ? 'Yes' : 'No'), 3
     /* TEXT, CLASS */
     )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(task.category.name), 1
     /* TEXT */
@@ -27007,14 +27023,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "mt-2"
       }, null, 8
       /* PROPS */
-      , ["message"])])];
+      , ["message"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_checkbox, {
+        checked: $data.form.completed,
+        "onUpdate:checked": _cache[2] || (_cache[2] = function ($event) {
+          return $data.form.completed = $event;
+        })
+      }, null, 8
+      /* PROPS */
+      , ["checked"]), _hoisted_21])])];
     }),
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_secondary_button, {
         onClick: $options.closeModal
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [_hoisted_19];
+          return [_hoisted_22];
         }),
         _: 1
         /* STABLE */
@@ -27029,7 +27052,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         disabled: $data.form.processing
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [_hoisted_20];
+          return [_hoisted_23];
         }),
         _: 1
         /* STABLE */

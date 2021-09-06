@@ -35,8 +35,8 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <span
                                             class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
-                                            :class="{ 'bg-green-200 text-green-800': task.completed_at, 'bg-red-300 text-red-700': !task.completed_at}">
-                                            {{ task.completed_at ? 'Yes' : 'No' }}
+                                            :class="{ 'bg-green-200 text-green-800': task.completed, 'bg-red-300 text-red-700': !task.completed}">
+                                            {{ task.completed ? 'Yes' : 'No' }}
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
@@ -86,6 +86,12 @@
 
                     <jet-input-error :message="form.errors.category_id" class="mt-2" />
                 </div>
+                <div class="mt-4">
+                    <label class="flex items-center">
+                        <jet-checkbox v-model:checked="form.completed"/>
+                        <span class="ml-2 text-sm text-gray-600">Completed</span>
+                    </label>
+                </div>
             </template>
 
             <template #footer>
@@ -132,6 +138,7 @@ export default {
             form: this.$inertia.form({
                 description: '',
                 category_id: '',
+                completed: false
             })
         }
     },
@@ -143,6 +150,7 @@ export default {
             this.selectedTask = task;
             this.form.description = task.description;
             this.form.category_id = task.category.id;
+            this.form.completed = task.completed;
 
             setTimeout(() => this.$refs.description.focus(), 250)
         },
