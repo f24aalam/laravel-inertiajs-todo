@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateTaskRequest;
 use App\Models\Category;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -16,12 +18,10 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $categories = Inertia::lazy(
-            function () {
-                return Category::where('user_id', Auth::user()->id)
-                    ->get();
-            }
-        );
+        $categories = function () {
+            return Category::where('user_id', Auth::user()->id)
+                ->get();
+        };
 
         return Inertia::render('Task/Index', ['categories' => $categories]);
     }
@@ -42,9 +42,15 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateTaskRequest $request)
     {
-        //
+        $task = new Task();
+        $task->description = $request->description;
+        $task->user_id = Auth::user()->id;
+        $task->category_id = $request->category_id;
+        $task->save();
+
+        return redirect()->back();
     }
 
     /**

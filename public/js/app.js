@@ -21317,7 +21317,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       creatingTask: false,
       form: this.$inertia.form({
-        description: ''
+        description: '',
+        category_id: ''
       })
     };
   },
@@ -21342,19 +21343,17 @@ __webpack_require__.r(__webpack_exports__);
 
       this.form.post(route('tasks.store'), {
         preserveScroll: true,
+        preserveState: true,
         onSuccess: function onSuccess() {
-          return _this2.closeModal();
-        },
-        onError: function onError() {
-          return _this2.$refs.description.focus();
-        },
-        onFinish: function onFinish() {
-          return _this2.form.reset();
+          _this2.closeModal();
+
+          _this2.form.reset();
         }
       });
     },
     closeModal: function closeModal() {
       this.creatingTask = false;
+      this.form.clearErrors();
       this.form.reset();
     }
   }

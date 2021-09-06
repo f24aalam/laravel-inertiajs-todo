@@ -70,6 +70,7 @@ export default {
 
             form: this.$inertia.form({
                 description: '',
+                category_id: ''
             })
         }
     },
@@ -92,15 +93,17 @@ export default {
         create() {
             this.form.post(route('tasks.store'), {
                 preserveScroll: true,
-                onSuccess: () => this.closeModal(),
-                onError: () => this.$refs.description.focus(),
-                onFinish: () => this.form.reset(),
+                preserveState: true,
+                onSuccess: () => {
+                    this.closeModal();
+                    this.form.reset();
+                },
             })
         },
 
         closeModal() {
             this.creatingTask = false
-
+            this.form.clearErrors()
             this.form.reset()
         },
     },
