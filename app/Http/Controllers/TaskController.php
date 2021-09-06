@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Category;
 use App\Models\Task;
 use Illuminate\Http\Request;
@@ -23,7 +24,12 @@ class TaskController extends Controller
                 ->get();
         };
 
-        return Inertia::render('Task/Index', ['categories' => $categories]);
+        $tasks = Task::with('category')->where('user_id', Auth::user()->id)->get();
+
+        return Inertia::render('Task/Index', [
+            'categories' => $categories,
+            'tasks' => $tasks,
+        ]);
     }
 
     /**
@@ -82,9 +88,13 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateTaskRequest $request, Task $task)
     {
-        //
+        $task->description = $request->description;
+        $task->category_id = $request->category_id;
+        $task->save();
+
+        return redirect()->back();
     }
 
     /**

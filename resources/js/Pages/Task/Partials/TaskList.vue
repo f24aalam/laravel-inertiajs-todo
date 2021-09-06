@@ -29,14 +29,14 @@
                                 <tr v-for="task in tasks" :key="task.id">
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
-                                            {{ task.name }}
+                                            {{ task.description }}
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <span
                                             class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
-                                            :class="{ 'bg-green-200 text-green-800': task.is_active, 'bg-red-300 text-red-700': !task.is_active}">
-                                            {{ task.is_active ? 'Active' : 'Disabled' }}
+                                            :class="{ 'bg-green-200 text-green-800': task.completed_at, 'bg-red-300 text-red-700': !task.completed_at}">
+                                            {{ task.completed_at ? 'Yes' : 'No' }}
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
@@ -107,6 +107,7 @@ import JetInput from '@/Jetstream/Input.vue'
 import JetInputError from '@/Jetstream/InputError.vue'
 import JetSecondaryButton from '@/Jetstream/SecondaryButton.vue'
 import JetCheckbox from '@/Jetstream/Checkbox.vue'
+import { Inertia } from '@inertiajs/inertia'
 
 export default {
     components: {
@@ -126,7 +127,7 @@ export default {
     data() {
         return {
             updatingTask: false,
-            task: {},
+            selectedTask: {},
 
             form: this.$inertia.form({
                 description: '',
@@ -139,7 +140,7 @@ export default {
         updateTask(task) {
             this.fetchCategories();
             this.updatingTask = true;
-            this.task = task;
+            this.selectedTask = task;
             this.form.description = task.description;
             this.form.category_id = task.category.id;
 
@@ -152,17 +153,20 @@ export default {
         },
 
         update() {
-            this.form.put(route('tasks.update', this.task.id), {
+            this.form.put(route('tasks.update', this.selectedTask.id), {
                 preserveScroll: true,
-                onSuccess: () => this.closeModal(),
-                onError: () => this.$refs.description.focus(),
-                onFinish: () => this.form.reset(),
+                preserveState: true,
+                onSuccess: () => {
+                    this.closeModal();
+                    this.form.reset();
+                },
             })
         },
 
         closeModal() {
             this.updatingTask = false
 
+            this.form.clearErrors()
             this.form.reset()
         },
     },

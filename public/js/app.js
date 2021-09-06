@@ -21264,16 +21264,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var _Layouts_AppLayout_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Layouts/AppLayout.vue */ "./resources/js/Layouts/AppLayout.vue");
 /* harmony import */ var _Partials_CreateTask_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Partials/CreateTask.vue */ "./resources/js/Pages/Task/Partials/CreateTask.vue");
+/* harmony import */ var _Partials_TaskList_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Partials/TaskList.vue */ "./resources/js/Pages/Task/Partials/TaskList.vue");
+
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
   components: {
     AppLayout: _Layouts_AppLayout_vue__WEBPACK_IMPORTED_MODULE_1__.default,
-    CreateTask: _Partials_CreateTask_vue__WEBPACK_IMPORTED_MODULE_2__.default
+    CreateTask: _Partials_CreateTask_vue__WEBPACK_IMPORTED_MODULE_2__.default,
+    TaskList: _Partials_TaskList_vue__WEBPACK_IMPORTED_MODULE_3__.default
   },
   props: {
-    categories: Array
+    categories: Array,
+    tasks: Array
   }
 }));
 
@@ -21378,6 +21382,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Jetstream_InputError_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Jetstream/InputError.vue */ "./resources/js/Jetstream/InputError.vue");
 /* harmony import */ var _Jetstream_SecondaryButton_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Jetstream/SecondaryButton.vue */ "./resources/js/Jetstream/SecondaryButton.vue");
 /* harmony import */ var _Jetstream_Checkbox_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/Jetstream/Checkbox.vue */ "./resources/js/Jetstream/Checkbox.vue");
+/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+
 
 
 
@@ -21400,7 +21406,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       updatingTask: false,
-      task: {},
+      selectedTask: {},
       form: this.$inertia.form({
         description: '',
         category_id: ''
@@ -21413,7 +21419,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.fetchCategories();
       this.updatingTask = true;
-      this.task = task;
+      this.selectedTask = task;
       this.form.description = task.description;
       this.form.category_id = task.category.id;
       setTimeout(function () {
@@ -21421,28 +21427,26 @@ __webpack_require__.r(__webpack_exports__);
       }, 250);
     },
     fetchCategories: function fetchCategories() {
-      Inertia.reload({
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_6__.Inertia.reload({
         only: ['categories']
       });
     },
     update: function update() {
       var _this2 = this;
 
-      this.form.put(route('tasks.update', this.task.id), {
+      this.form.put(route('tasks.update', this.selectedTask.id), {
         preserveScroll: true,
+        preserveState: true,
         onSuccess: function onSuccess() {
-          return _this2.closeModal();
-        },
-        onError: function onError() {
-          return _this2.$refs.description.focus();
-        },
-        onFinish: function onFinish() {
-          return _this2.form.reset();
+          _this2.closeModal();
+
+          _this2.form.reset();
         }
       });
     },
     closeModal: function closeModal() {
       this.updatingTask = false;
+      this.form.clearErrors();
       this.form.reset();
     }
   }
@@ -26648,16 +26652,16 @@ var _hoisted_1 = {
 
 var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Tasks ");
 
-var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_3 = {
   "class": "py-12"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+};
+var _hoisted_4 = {
   "class": "max-w-7xl mx-auto sm:px-6 lg:px-8"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <category-list :categories=\"categories\" /> ")])], -1
-/* HOISTED */
-);
-
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_create_task = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("create-task");
+
+  var _component_task_list = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("task-list");
 
   var _component_app_layout = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("app-layout");
 
@@ -26672,7 +26676,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       , ["categories"])])];
     }),
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_3];
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_task_list, {
+        tasks: _ctx.tasks,
+        categories: _ctx.categories
+      }, null, 8
+      /* PROPS */
+      , ["tasks", "categories"])])])];
     }),
     _: 1
     /* STABLE */
@@ -26930,14 +26939,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" This example requires Tailwind CSS v2.0+ "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.tasks, function (task) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
       key: task.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(task.name), 1
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(task.description), 1
     /* TEXT */
     )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["px-2 inline-flex text-xs leading-5 font-semibold rounded-full", {
-        'bg-green-200 text-green-800': task.is_active,
-        'bg-red-300 text-red-700': !task.is_active
+        'bg-green-200 text-green-800': task.completed_at,
+        'bg-red-300 text-red-700': !task.completed_at
       }])
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(task.is_active ? 'Active' : 'Disabled'), 3
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(task.completed_at ? 'Yes' : 'No'), 3
     /* TEXT, CLASS */
     )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(task.category.name), 1
     /* TEXT */
