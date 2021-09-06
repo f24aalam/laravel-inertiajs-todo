@@ -6,6 +6,7 @@ use App\Http\Requests\CreateTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Category;
 use App\Models\Task;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -21,10 +22,16 @@ class TaskController extends Controller
     {
         $categories = function () {
             return Category::where('user_id', Auth::user()->id)
+                ->active()
                 ->get();
         };
 
-        $tasks = Task::with('category')->where('user_id', Auth::user()->id)->get();
+        $tasks = Task::with('category')
+            ->whereHas('category', function (Builder $query) {
+                $query->active();
+            })
+            ->where('user_id', Auth::user()->id)
+            ->get();
 
         return Inertia::render('Task/Index', [
             'categories' => $categories,
