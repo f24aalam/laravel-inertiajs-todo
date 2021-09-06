@@ -19,6 +19,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::where('user_id', Auth::user()->id)
+            ->withCount('tasks')
             ->get();
 
         return Inertia::render('Category/Index', ['categories' => $categories]);

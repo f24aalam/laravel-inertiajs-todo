@@ -28,4 +28,9 @@ class Category extends Model
     {
         return $query->where('is_active', 1);
     }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }
