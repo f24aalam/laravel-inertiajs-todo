@@ -28,7 +28,7 @@
                             <tbody class="bg-white divide-y divide-gray-200">
                                 <tr v-for="task in tasks" :key="task.id">
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
+                                        <div class="flex items-center" :class="{'line-through': task.completed}">
                                             {{ task.description }}
                                         </div>
                                     </td>
