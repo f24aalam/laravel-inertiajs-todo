@@ -62,4 +62,28 @@ return [
 
     'profile_photo_disk' => 'public',
 
+    'roles' => [
+        [
+            'key' => 'admin',
+            'name' => 'Administrator',
+            'description' => 'Administrator users can perform any action.',
+            'permissions' => [
+                'create',
+                'read',
+                'update',
+                'delete',
+            ],
+        ],
+        [
+            'key' => 'editor',
+            'name' => 'Editor',
+            'description' => 'Editor users have the ability to read, create, and update.',
+            'permissions' => [
+                'read',
+                'create',
+                'update',
+            ],
+        ],
+    ],
+
 ];
