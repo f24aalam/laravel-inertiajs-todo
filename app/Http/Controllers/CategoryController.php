@@ -18,7 +18,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::where('user_id', Auth::user()->id)
+        $categories = Category::where('team_id', Auth::user()->currentTeam->id)
             ->withCount('tasks')
             ->get();
 
@@ -44,7 +44,6 @@ class CategoryController extends Controller
     public function store(CreateCategoryRequest $request)
     {
         $category = new Category();
-        $category->user_id = Auth::user()->id;
         $category->name = $request->name;
         $category->save();
 

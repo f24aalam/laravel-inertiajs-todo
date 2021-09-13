@@ -21,7 +21,7 @@ class TaskController extends Controller
     public function index()
     {
         $categories = function () {
-            return Category::where('user_id', Auth::user()->id)
+            return Category::where('team_id', Auth::user()->currentTeam->id)
                 ->active()
                 ->get();
         };
@@ -30,7 +30,10 @@ class TaskController extends Controller
             ->whereHas('category', function (Builder $query) {
                 $query->active();
             })
-            ->where('user_id', Auth::user()->id)
+            ->where([
+                'user_id' => Auth::user()->id,
+                'team_id' => Auth::user()->currentTeam->id,
+            ])
             ->get();
 
         return Inertia::render('Task/Index', [
@@ -59,7 +62,6 @@ class TaskController extends Controller
     {
         $task = new Task();
         $task->description = $request->description;
-        $task->user_id = Auth::user()->id;
         $task->category_id = $request->category_id;
         $task->save();
 
