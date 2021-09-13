@@ -84,6 +84,16 @@ return [
                 'update',
             ],
         ],
+        [
+            'key' => 'demo',
+            'name' => 'Demo',
+            'description' => 'Demo user have the ability to read, create, and update',
+            'permissions' => [
+                'read',
+                'create',
+                'update',
+            ],
+        ],
     ],
 
 ];
