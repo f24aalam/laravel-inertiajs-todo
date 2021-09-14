@@ -4,6 +4,7 @@ namespace App\GraphQL\Mutations;
 
 use App\Models\Task;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 
 class TaskMutator
 {
@@ -15,6 +16,8 @@ class TaskMutator
     {
         $task = new Task();
         $task->description = Arr::get($args, 'description');
+        $task->category_id = Arr::get($args, 'category_id');
+        $task->save();
 
         return $task;
     }

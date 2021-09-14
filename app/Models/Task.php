@@ -33,9 +33,9 @@ class Task extends Model
      */
     protected static function booted()
     {
-        static::creating(function ($product) {
-            $product->team_id = Auth::user()->currentTeam->id;
-            $product->user_id = Auth::user()->id;
+        static::creating(function ($task) {
+            $task->team_id = Auth::user()->currentTeam->id;
+            $task->user_id = Auth::user()->id;
         });
     }
 
