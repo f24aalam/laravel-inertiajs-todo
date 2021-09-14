@@ -9,7 +9,7 @@
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <category-list :categories="categories" />
+                <list-category :categories="categories" />
             </div>
         </div>
     </app-layout>
@@ -18,13 +18,13 @@
 <script>
     import { defineComponent } from 'vue'
     import AppLayout from '@/Layouts/AppLayout.vue'
-    import CategoryList from './Partials/CategoryList.vue'
+    import ListCategory from './Partials/ListCategory.vue'
     import CreateCategory from './Partials/CreateCategory.vue'
 
     export default defineComponent({
         components: {
             AppLayout,
-            CategoryList,
+            ListCategory,
             CreateCategory
         },
         props: {
