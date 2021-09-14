@@ -40,6 +40,16 @@ class Task extends Model
     }
 
     /**
+     * Task belongsTo to a user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
      * Category relation to this task
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
