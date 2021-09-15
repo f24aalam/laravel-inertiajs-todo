@@ -100,7 +100,7 @@ class TaskController extends Controller
     {
         $task->description = $request->description;
         $task->category_id = $request->category_id;
-        $task->completed_at = $request->completed ? now() : null;
+        $task->completed = $request->completed;
         $task->save();
 
         return redirect()->back();
