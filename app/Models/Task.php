@@ -60,6 +60,16 @@ class Task extends Model
     }
 
     /**
+     * Scope to get tasks where category is active.
+     */
+    public function scopeActiveCategory()
+    {
+        return self::whereHas('category', function($query) {
+            return $query->active();
+        });
+    }
+
+    /**
      * Get the completed attribute
      *
      * @return boolean
