@@ -27,9 +27,8 @@ class TaskController extends Controller
         };
 
         $tasks = Task::with('category')
-            ->whereHas('category', function (Builder $query) {
-                $query->active();
-            })
+            ->activeCategory()
+            ->with('category')
             ->where([
                 'user_id' => Auth::user()->id,
                 'team_id' => Auth::user()->currentTeam->id,
@@ -101,7 +100,7 @@ class TaskController extends Controller
     {
         $task->description = $request->description;
         $task->category_id = $request->category_id;
-        $task->completed_at = $request->completed ? now() : null;
+        $task->completed = $request->completed;
         $task->save();
 
         return redirect()->back();

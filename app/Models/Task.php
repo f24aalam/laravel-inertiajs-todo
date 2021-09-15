@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -33,10 +34,20 @@ class Task extends Model
      */
     protected static function booted()
     {
-        static::creating(function ($product) {
-            $product->team_id = Auth::user()->currentTeam->id;
-            $product->user_id = Auth::user()->id;
+        static::creating(function ($task) {
+            $task->team_id = Auth::user()->currentTeam->id;
+            $task->user_id = Auth::user()->id;
         });
+    }
+
+    /**
+     * Task belongsTo to a user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -47,6 +58,41 @@ class Task extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * Scope to get tasks where category is active.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeActiveCategory($query)
+    {
+        return $query->whereHas('category', function($query) {
+            return $query->active();
+        });
+    }
+
+    /**
+     * Scope a query to only include current team tasks.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeTeam($query)
+    {
+        return $query->where('team_id', Auth::user()->currentTeam->id);
+    }
+
+    /**
+     * Set the completed at field.
+     *
+     * @param  bool  $value
+     * @return void
+     */
+    public function setCompletedAttribute($value)
+    {
+        $this->attributes['completed_at'] = $value ? Carbon::now() : null;
     }
 
     /**

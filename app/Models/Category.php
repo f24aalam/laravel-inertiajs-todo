@@ -33,6 +33,35 @@ class Category extends Model
     }
 
     /**
+     * Set the is active field.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setActiveAttribute($value)
+    {
+        $this->attributes['is_active'] = $value;
+    }
+
+    /**
+     * Getter for converting is active to only active
+     */
+    public function getActiveAttribute()
+    {
+        return $this->attributes['is_active'];
+    }
+
+    /**
+     * Task belongsTo to a user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
      * Scope a query to only include active categories.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
@@ -41,6 +70,17 @@ class Category extends Model
     public function scopeActive($query)
     {
         return $query->where('is_active', 1);
+    }
+
+    /**
+     * Scope a query to only include current team categories.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeTeam($query)
+    {
+        return $query->where('team_id', Auth::user()->currentTeam->id);
     }
 
     /**

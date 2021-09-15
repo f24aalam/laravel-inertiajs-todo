@@ -39,3 +39,7 @@ npm install && npm run dev
 ```sh
 php artisan serve
 ```
+
+## GraphQL
+
+We are using the `GraphQL` for exposing the application data to third party, more [here](https://graphql.org/) about GraphQL and we are using **`Lighthouse PHP`** framework for serving GraphQL from laravel, you can learn more about lighthouse [here](https://lighthouse-php.com/).
