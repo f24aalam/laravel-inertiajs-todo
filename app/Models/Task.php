@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -81,6 +82,17 @@ class Task extends Model
     public function scopeTeam($query)
     {
         return $query->where('team_id', Auth::user()->currentTeam->id);
+    }
+
+    /**
+     * Set the completed at field.
+     *
+     * @param  bool  $value
+     * @return void
+     */
+    public function setCompletedAttribute($value)
+    {
+        $this->attributes['completed_at'] = $value ? Carbon::now() : null;
     }
 
     /**

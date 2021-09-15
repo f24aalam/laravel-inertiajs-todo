@@ -33,6 +33,17 @@ class Category extends Model
     }
 
     /**
+     * Set the is active field.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setActiveAttribute($value)
+    {
+        $this->attributes['is_active'] = $value;
+    }
+
+    /**
      * Getter for converting is active to only active
      */
     public function getActiveAttribute()
