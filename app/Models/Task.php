@@ -61,12 +61,26 @@ class Task extends Model
 
     /**
      * Scope to get tasks where category is active.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeActiveCategory()
+    public function scopeActiveCategory($query)
     {
-        return self::whereHas('category', function($query) {
+        return $query->whereHas('category', function($query) {
             return $query->active();
         });
+    }
+
+    /**
+     * Scope a query to only include current team tasks.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeTeam($query)
+    {
+        return $query->where('team_id', Auth::user()->currentTeam->id);
     }
 
     /**
