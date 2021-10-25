@@ -50,7 +50,7 @@ class Category extends Model
      */
     public function scopeActive($query)
     {
-        return $query->where('is_active', 1);
+        return $query->where('active', 1);
     }
 
     /**

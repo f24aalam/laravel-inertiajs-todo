@@ -1,13 +1,15 @@
 <template>
     <div>
-        <jet-button @click="createTask">
+        <jet-button @click="saveTask" v-if="!isEdit">
             Create New
         </jet-button>
 
+        <a href="#" @click.prevent="saveTask" class="text-indigo-600 hover:text-indigo-900" v-else>Edit</a>
+
         <!-- Delete Account Confirmation Modal -->
-        <jet-dialog-modal :show="creatingTask" @close="closeModal">
+        <jet-dialog-modal :show="savingTask" @close="closeModal">
             <template #title>
-                Create Task
+                {{ isEdit ? "Update Task" : "Create Task" }}
             </template>
 
             <template #content>
@@ -15,7 +17,7 @@
                     <jet-input type="text" class="mt-1 block w-3/4" placeholder="Task Description"
                                 ref="description"
                                 v-model="form.description"
-                                @keyup.enter="create" />
+                                @keyup.enter="save" />
 
                     <jet-input-error :message="form.errors.description" class="mt-2" />
                 </div>
@@ -29,6 +31,13 @@
 
                     <jet-input-error :message="form.errors.category_id" class="mt-2" />
                 </div>
+
+                <div class="mt-4" v-if="isEdit">
+                    <label class="flex items-center">
+                        <jet-checkbox v-model:checked="form.completed"/>
+                        <span class="ml-2 text-sm text-gray-600">Completed</span>
+                    </label>
+                </div>
             </template>
 
             <template #footer>
@@ -36,8 +45,8 @@
                     Cancel
                 </jet-secondary-button>
 
-                <jet-button class="ml-2" @click="create" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Create
+                <jet-button class="ml-2" @click="save" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                    Save
                 </jet-button>
             </template>
         </jet-dialog-modal>
@@ -49,6 +58,7 @@ import JetDialogModal from '@/Jetstream/DialogModal.vue'
 import JetInput from '@/Jetstream/Input.vue'
 import JetInputError from '@/Jetstream/InputError.vue'
 import JetSecondaryButton from '@/Jetstream/SecondaryButton.vue'
+import JetCheckbox from '@/Jetstream/Checkbox.vue'
 import { Inertia } from '@inertiajs/inertia'
 
 export default {
@@ -57,31 +67,38 @@ export default {
         JetDialogModal,
         JetInput,
         JetInputError,
+        JetCheckbox,
         JetSecondaryButton,
     },
 
     props: {
-        categories: Array
+        categories: Array,
+        isEdit: {
+            default: false,
+            type: Boolean
+        },
+        task: {
+            type: Object,
+            default: {
+                description: '',
+                category_id: '',
+                completed: false,
+            }
+        }
     },
 
     data() {
         return {
-            creatingTask: false,
+            savingTask: false,
 
-            form: this.$inertia.form({
-                description: '',
-                category_id: ''
-            })
+            form: this.$inertia.form(this.task)
         }
     },
 
-    mounted () {
-    },
-
     methods: {
-        createTask() {
+        saveTask() {
             this.fetchCategories();
-            this.creatingTask = true;
+            this.savingTask = true;
 
             setTimeout(() => this.$refs.description.focus(), 250)
         },
@@ -90,19 +107,29 @@ export default {
             Inertia.reload({ only: ['categories'] })
         },
 
-        create() {
-            this.form.post(route('tasks.store'), {
-                preserveScroll: true,
-                preserveState: true,
-                onSuccess: () => {
-                    this.closeModal();
-                    this.form.reset();
-                },
-            })
+        save() {
+            if (!this.isEdit) {
+                this.form.post(route('tasks.store'), {
+                    preserveScroll: true,
+                    preserveState: true,
+                    onSuccess: () => {
+                        this.closeModal();
+                        this.form.reset();
+                    },
+                })
+            } else {
+                this.form.put(route('tasks.update', this.form.id), {
+                    preserveScroll: true,
+                    preserveState: true,
+                    onSuccess: () => {
+                        this.closeModal();
+                    },
+                })
+            }
         },
 
         closeModal() {
-            this.creatingTask = false
+            this.savingTask = false
             this.form.clearErrors()
             this.form.reset()
         },

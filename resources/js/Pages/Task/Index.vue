@@ -3,7 +3,7 @@
         <template #header>
             <h2 class="flex justify-between font-semibold text-xl text-gray-800 leading-tight">
                 Tasks
-                <create-task :categories="categories" />
+                <save-task :categories="categories" />
             </h2>
         </template>
 
@@ -17,13 +17,13 @@
 <script>
 import { defineComponent } from 'vue'
 import AppLayout from '@/Layouts/AppLayout.vue'
-import CreateTask from './Partials/CreateTask.vue'
+import SaveTask from './Partials/SaveTask.vue'
 import ListTask from './Partials/ListTask.vue'
 
 export default defineComponent({
     components: {
         AppLayout,
-        CreateTask,
+        SaveTask,
         ListTask,
     },
 
