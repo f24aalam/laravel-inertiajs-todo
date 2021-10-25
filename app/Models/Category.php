@@ -16,7 +16,7 @@ class Category extends Model
      * @var array
      */
     protected $casts = [
-        'is_active' => 'boolean',
+        'active' => 'boolean',
     ];
 
     /**
@@ -30,25 +30,6 @@ class Category extends Model
             $category->team_id = Auth::user()->currentTeam->id;
             $category->user_id = Auth::user()->id;
         });
-    }
-
-    /**
-     * Set the is active field.
-     *
-     * @param  string  $value
-     * @return void
-     */
-    public function setActiveAttribute($value)
-    {
-        $this->attributes['is_active'] = $value;
-    }
-
-    /**
-     * Getter for converting is active to only active
-     */
-    public function getActiveAttribute()
-    {
-        return $this->attributes['is_active'];
     }
 
     /**

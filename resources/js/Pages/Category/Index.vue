@@ -3,7 +3,7 @@
         <template #header>
             <h2 class="flex justify-between font-semibold text-xl text-gray-800 leading-tight">
                 Categories
-                <create-category />
+                <save-category />
             </h2>
         </template>
 
@@ -19,13 +19,13 @@
     import { defineComponent } from 'vue'
     import AppLayout from '@/Layouts/AppLayout.vue'
     import ListCategory from './Partials/ListCategory.vue'
-    import CreateCategory from './Partials/CreateCategory.vue'
+    import SaveCategory from './Partials/SaveCategory.vue'
 
     export default defineComponent({
         components: {
             AppLayout,
             ListCategory,
-            CreateCategory
+            SaveCategory
         },
         props: {
             categories: Array

@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateCategoryRequest;
-use App\Http\Requests\UpdateCategoryRequest;
-use App\Models\Category;
-use Illuminate\Http\Request;
+use App\Http\Requests\SaveCategoryRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Category;
 use Inertia\Inertia;
 
 class CategoryController extends Controller
@@ -26,50 +24,19 @@ class CategoryController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateCategoryRequest $request)
+    public function store(SaveCategoryRequest $request)
     {
         $category = new Category();
         $category->name = $request->name;
+        $category->active = $request->active;
         $category->save();
 
         return redirect()->back();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -79,10 +46,10 @@ class CategoryController extends Controller
      * @param  \App\Models\Category $category
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCategoryRequest $request, Category $category)
+    public function update(SaveCategoryRequest $request, Category $category)
     {
         $category->name = $request->name;
-        $category->is_active = $request->is_active;
+        $category->active = $request->active;
         $category->save();
 
         return redirect()->back();

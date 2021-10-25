@@ -18,7 +18,7 @@ class CreateCategoriesTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('team_id')->constrained()->onDelete('cascade');
             $table->string('name');
-            $table->boolean('is_active')->default(true);
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
     }
