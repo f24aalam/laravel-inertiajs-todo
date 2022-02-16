@@ -1202,6 +1202,9 @@ select {
 .-mt-px {
 	margin-top: -1px;
 }
+.mb-12 {
+	margin-bottom: 3rem;
+}
 .block {
 	display: block;
 }

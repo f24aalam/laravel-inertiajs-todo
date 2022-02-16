@@ -6,6 +6,7 @@ use App\Http\Requests\SaveTaskRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
 use App\Models\Task;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class TaskController extends Controller
@@ -15,13 +16,15 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $categories = function () {
             return Category::where('team_id', Auth::user()->currentTeam->id)
                 ->active()
                 ->get();
         };
+
+        $search = $request->input('query');
 
         $tasks = Task::with('category')
             ->activeCategory()
@@ -30,11 +33,15 @@ class TaskController extends Controller
                 'user_id' => Auth::user()->id,
                 'team_id' => Auth::user()->currentTeam->id,
             ])
+            ->when($search, function ($query) use ($search) {
+                return $query->where('description', 'like', '%'.$search.'%');
+            })
             ->get();
 
         return Inertia::render('Task/Index', [
             'categories' => $categories,
             'tasks' => $tasks,
+            'query' => $search,
         ]);
     }
 

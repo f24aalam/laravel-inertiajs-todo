@@ -21252,8 +21252,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var _Layouts_AppLayout_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Layouts/AppLayout.vue */ "./resources/js/Layouts/AppLayout.vue");
-/* harmony import */ var _Partials_SaveTask_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Partials/SaveTask.vue */ "./resources/js/Pages/Task/Partials/SaveTask.vue");
-/* harmony import */ var _Partials_ListTask_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Partials/ListTask.vue */ "./resources/js/Pages/Task/Partials/ListTask.vue");
+/* harmony import */ var _Jetstream_Input_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Jetstream/Input.vue */ "./resources/js/Jetstream/Input.vue");
+/* harmony import */ var _Partials_SaveTask_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Partials/SaveTask.vue */ "./resources/js/Pages/Task/Partials/SaveTask.vue");
+/* harmony import */ var _Partials_ListTask_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Partials/ListTask.vue */ "./resources/js/Pages/Task/Partials/ListTask.vue");
+/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+
+
 
 
 
@@ -21261,12 +21265,35 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
   components: {
     AppLayout: _Layouts_AppLayout_vue__WEBPACK_IMPORTED_MODULE_1__.default,
-    SaveTask: _Partials_SaveTask_vue__WEBPACK_IMPORTED_MODULE_2__.default,
-    ListTask: _Partials_ListTask_vue__WEBPACK_IMPORTED_MODULE_3__.default
+    JetInput: _Jetstream_Input_vue__WEBPACK_IMPORTED_MODULE_2__.default,
+    SaveTask: _Partials_SaveTask_vue__WEBPACK_IMPORTED_MODULE_3__.default,
+    ListTask: _Partials_ListTask_vue__WEBPACK_IMPORTED_MODULE_4__.default
   },
   props: {
     categories: Array,
-    tasks: Array
+    tasks: Array,
+    query: String
+  },
+  data: function data() {
+    return {
+      timer: null
+    };
+  },
+  methods: {
+    search: function search(event) {
+      var _this = this;
+
+      if (this.timer !== null) {
+        clearTimeout(this.timer);
+      }
+
+      this.timer = setTimeout(function () {
+        _this.timer = null;
+        _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_5__.Inertia.replace(route('tasks.index', {
+          query: event.target.value
+        }));
+      }, 500);
+    }
   }
 }));
 
@@ -26546,10 +26573,15 @@ var _hoisted_3 = {
   "class": "py-12"
 };
 var _hoisted_4 = {
+  "class": "max-w-7xl mx-auto sm:px-6 lg:px-8 mb-12"
+};
+var _hoisted_5 = {
   "class": "max-w-7xl mx-auto sm:px-6 lg:px-8"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_save_task = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("save-task");
+
+  var _component_jet_input = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-input");
 
   var _component_list_task = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("list-task");
 
@@ -26566,7 +26598,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       , ["categories"])])];
     }),
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_list_task, {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
+        type: "text",
+        "class": "mt-1 block w-3/4",
+        onKeyup: _ctx.search,
+        value: _ctx.query
+      }, null, 8
+      /* PROPS */
+      , ["onKeyup", "value"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_list_task, {
         tasks: _ctx.tasks,
         categories: _ctx.categories
       }, null, 8
